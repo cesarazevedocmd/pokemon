@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.pokemon.repository.model.Pokemon
 
-class PokemonClientService(private val service: PokemonService) {
+open class PokemonClientService(private val service: PokemonService) {
 
     private val pokemonList = MutableLiveData<List<Pokemon>>()
     private val items = mutableListOf<Pokemon>()

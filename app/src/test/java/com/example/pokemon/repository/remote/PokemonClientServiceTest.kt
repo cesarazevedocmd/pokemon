@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class PokemonClientServiceTest {
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+    val rule = InstantTaskExecutorRule()
 
     private lateinit var pokemonClientService: PokemonClientService
 
