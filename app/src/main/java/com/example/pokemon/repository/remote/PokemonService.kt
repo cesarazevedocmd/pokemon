@@ -1,4 +1,4 @@
-package com.example.pokemon.repository.services
+package com.example.pokemon.repository.remote
 
 import com.example.pokemon.repository.retrofit.PokemonAPI
 import retrofit2.http.GET
