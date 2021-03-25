@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/activity_details_image"
+        android:layout_width="0dp"
+        android:layout_height="125dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_pokemon" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_details_image">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <com.example.pokemon.ui.customview.CustomViewInformation
+                android:id="@+id/activity_details_info_01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cvi_description="@string/label_subtitle_example"
+                app:cvi_title="@string/label_title_example" />
+
+            <com.example.pokemon.ui.customview.CustomViewInformation
+                android:id="@+id/activity_details_info_02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cvi_description="@string/label_subtitle_example"
+                app:cvi_title="@string/label_title_example" />
+
+            <com.example.pokemon.ui.customview.CustomViewInformation
+                android:id="@+id/activity_details_info_03"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cvi_description="@string/label_subtitle_example"
+                app:cvi_title="@string/label_title_example" />
+
+            <com.example.pokemon.ui.customview.CustomViewInformation
+                android:id="@+id/activity_details_info_04"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cvi_description="@string/label_subtitle_example"
+                app:cvi_title="@string/label_title_example" />
+
+            <com.example.pokemon.ui.customview.CustomViewInformation
+                android:id="@+id/activity_details_info_05"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cvi_description="@string/label_subtitle_example"
+                app:cvi_title="@string/label_title_example" />
+
+            <com.example.pokemon.ui.customview.CustomViewInformation
+                android:id="@+id/activity_details_info_06"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cvi_description="@string/label_subtitle_example"
+                app:cvi_title="@string/label_title_example" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
