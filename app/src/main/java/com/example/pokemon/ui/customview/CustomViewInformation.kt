@@ -6,9 +6,8 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.pokemon.R
-
-const val zero = 0
-const val empty = ""
+import com.example.pokemon.util.empty
+import com.example.pokemon.util.zero
 
 class CustomViewInformation @JvmOverloads constructor(
     context: Context,
