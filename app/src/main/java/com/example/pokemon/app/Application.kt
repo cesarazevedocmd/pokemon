@@ -1,4 +1,4 @@
-package com.example.pokemon.ui.app
+package com.example.pokemon.app
 
 import android.app.Application
 import org.koin.android.ext.koin.androidContext

@@ -1,4 +1,4 @@
-package com.example.pokemon.ui.app
+package com.example.pokemon.app
 
 import org.koin.core.module.Module
 
