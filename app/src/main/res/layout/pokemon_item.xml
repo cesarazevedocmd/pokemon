@@ -24,6 +24,7 @@
         android:layout_marginStart="16dp"
         android:text="@string/label_pokemon_example"
         android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/pokemon_item_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/pokemon_item_icon"
