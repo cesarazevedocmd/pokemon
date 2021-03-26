@@ -1,9 +1,12 @@
-package com.example.pokemon.repository
+package com.example.pokemon.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.pokemon.createPokemonList
+import com.example.pokemon.repository.PokemonRepository
 import com.example.pokemon.repository.remote.PokemonClientService
 import com.example.pokemon.repository.remote.PokemonService
+import com.example.pokemon.ui.viewmodel.provider.TestCoroutineContextProvider
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -16,39 +19,40 @@ import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class PokemonRepositoryTest {
+@ExperimentalCoroutinesApi
+class PokemonViewModelTest {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var pokemonService: PokemonService
+    private lateinit var service: PokemonService
 
-    private lateinit var pokemonRepository: PokemonRepository
+    private lateinit var viewModel: PokemonViewModel
 
     @Before
-    fun setUp() {
-        val pokemonClientService = PokemonClientService(pokemonService)
-        pokemonRepository = PokemonRepository(pokemonClientService)
+    fun setup() {
+        val repository = PokemonRepository(PokemonClientService(service))
+        viewModel = PokemonViewModel(repository, TestCoroutineContextProvider())
     }
 
     @Test
     fun should_ReturnAnEmptyPokemonList_WhenCallItems() {
-        val liveData = pokemonRepository.items()
+        val liveData = viewModel.items()
 
         assertThat(liveData.value, equalTo(listOf()))
     }
 
     @Test
     fun should_ReturnAListWith100Pokemon_WhenCallListItemOnce() {
-        val listWith100Pokemon = createPokemonList(0, 100)
+        val pokemonList = createPokemonList(0, 100)
 
         runBlocking {
-            `when`(pokemonService.listItems(anyInt(), anyString())).thenReturn(listWith100Pokemon)
+            `when`(service.listItems(anyInt(), anyString())).thenReturn(pokemonList)
 
-            pokemonRepository.listItems()
+            viewModel.listItems()
 
-            assertThat(pokemonRepository.items().value, equalTo(listWith100Pokemon))
+            assertThat(viewModel.items().value, equalTo(pokemonList))
         }
     }
 }

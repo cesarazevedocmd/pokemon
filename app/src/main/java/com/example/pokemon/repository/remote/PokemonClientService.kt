@@ -6,14 +6,16 @@ import com.example.pokemon.repository.model.Pokemon
 
 open class PokemonClientService(private val service: PokemonService) {
 
-    private val pokemonList = MutableLiveData<List<Pokemon>>()
     private val items = mutableListOf<Pokemon>()
+    private val pokemonList = MutableLiveData<List<Pokemon>>().apply { value = items }
 
     fun items(): LiveData<List<Pokemon>> = pokemonList
 
     suspend fun listItems() {
-        val offset = pokemonList.value?.size ?: 0
-        items.addAll(service.listAll(offset))
-        pokemonList.value = items
+        val offset = getOffset()
+        items.addAll(service.listItems(offset))
+        pokemonList.postValue(items)
     }
+
+    private fun getOffset(): Int = pokemonList.value?.size ?: 0
 }

@@ -9,5 +9,12 @@ class PokemonViewModel(
 ) :
     SuperViewModel(contextProvider) {
 
+    fun items() = repository.items()
+
+    fun listItems() {
+        launch {
+            repository.listItems()
+        }
+    }
 
 }
