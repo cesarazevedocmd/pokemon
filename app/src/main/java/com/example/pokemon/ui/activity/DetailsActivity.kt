@@ -5,6 +5,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import com.example.pokemon.R
+import com.example.pokemon.extension.formatToString
 import com.example.pokemon.repository.model.Pokemon
 import com.example.pokemon.ui.customview.CustomViewInformation
 import com.example.pokemon.util.ModelConstants
@@ -18,7 +19,7 @@ class DetailsActivity : AppCompatActivity() {
             val pokemon = getPokemon()
             loadInformation(pokemon)
         } catch (exception: RuntimeException) {
-            findViewById<AppCompatTextView>(R.id.activity_details_alert).text = exception.message
+            findViewById<AppCompatTextView>(R.id.activity_details_txv_alert).text = exception.message
         }
 
     }
@@ -28,9 +29,9 @@ class DetailsActivity : AppCompatActivity() {
             informationView(R.id.activity_details_info_01, "Name", this.name)
             informationView(R.id.activity_details_info_02, "Height", "${this.height}")
             informationView(R.id.activity_details_info_03, "Weight", "${this.weight}")
-            informationView(R.id.activity_details_info_04, "Abilities", this.abilities.toString())
-            informationView(R.id.activity_details_info_05, "Stats", this.stats.toString())
-            informationView(R.id.activity_details_info_06, "Types", this.types.toString())
+            informationView(R.id.activity_details_info_04, "Abilities", this.abilities.formatToString())
+            informationView(R.id.activity_details_info_05, "Stats", this.stats.formatToString())
+            informationView(R.id.activity_details_info_06, "Types", this.types.formatToString())
         }
     }
 

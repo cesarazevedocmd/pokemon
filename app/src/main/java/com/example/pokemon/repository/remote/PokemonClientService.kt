@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.pokemon.repository.model.Pokemon
 import com.example.pokemon.repository.remote.response.ItemListResponse
 import com.example.pokemon.ui.viewmodel.provider.Resource
+import com.example.pokemon.ui.viewmodel.provider.Status
 
 open class PokemonClientService(private val service: PokemonService) {
 
@@ -14,12 +15,14 @@ open class PokemonClientService(private val service: PokemonService) {
     fun items(): LiveData<Resource<List<Pokemon>>> = pokemonList
 
     suspend fun listItems() {
-        pokemonList.postValue(Resource.loading())
-        try {
-            items.addAll(loadItems())
-            pokemonList.postValue(Resource.success(items))
-        } catch (exception: RuntimeException) {
-            pokemonList.postValue(Resource.error(exception.message ?: "Error, something went wrong"))
+        if (pokemonList.value?.status != Status.LOADING) {
+            pokemonList.postValue(Resource.loading())
+            try {
+                items.addAll(loadItems())
+                pokemonList.postValue(Resource.success(items))
+            } catch (exception: RuntimeException) {
+                pokemonList.postValue(Resource.error(exception.message ?: "Error, something went wrong"))
+            }
         }
     }
 

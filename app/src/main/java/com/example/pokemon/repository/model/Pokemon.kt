@@ -1,5 +1,9 @@
 package com.example.pokemon.repository.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Pokemon(
     var name: String,
     val frontPhotoUrl: String,
@@ -9,4 +13,4 @@ data class Pokemon(
     var stats: List<String> = listOf(),
     var abilities: List<String> = listOf(),
     var types: List<String> = listOf(),
-)
+) : Parcelable

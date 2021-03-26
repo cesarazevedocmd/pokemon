@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.PokemonActivity">
 
+    <ProgressBar
+        android:id="@+id/activity_pokemon_loading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/activity_pokemon_txv_alert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/label_pokemon_example"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_pokemon_loading" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_pokemon_rcv"
         android:layout_width="0dp"
@@ -13,7 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_pokemon_txv_alert"
         tools:listitem="@layout/pokemon_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
