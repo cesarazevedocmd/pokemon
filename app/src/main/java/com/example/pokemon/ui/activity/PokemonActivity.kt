@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemon.R
 import com.example.pokemon.repository.model.Pokemon
-import com.example.pokemon.ui.PokemonAdapter
+import com.example.pokemon.ui.activity.adapter.PokemonAdapter
 import com.example.pokemon.ui.viewmodel.PokemonViewModel
 import com.example.pokemon.ui.viewmodel.provider.Status
 import com.example.pokemon.util.ModelConstants

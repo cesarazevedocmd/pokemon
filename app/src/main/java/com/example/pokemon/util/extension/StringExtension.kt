@@ -1,4 +1,4 @@
-package com.example.pokemon.extension
+package com.example.pokemon.util.extension
 
 import com.example.pokemon.util.empty
 

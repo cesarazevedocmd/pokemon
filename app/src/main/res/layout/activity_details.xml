@@ -7,11 +7,31 @@
     tools:context=".ui.activity.DetailsActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/activity_details_image"
+        android:id="@+id/activity_details_front"
         android:layout_width="0dp"
         android:layout_height="125dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toStartOf="@id/activity_details_gdl"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_pokemon" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/activity_details_gdl"
+        android:layout_width="0dp"
+        android:layout_height="125dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/activity_details_back"
+        android:layout_width="0dp"
+        android:layout_height="125dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/activity_details_gdl"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_pokemon" />
 
@@ -27,7 +47,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_details_image" />
+        app:layout_constraintTop_toBottomOf="@id/activity_details_front" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
