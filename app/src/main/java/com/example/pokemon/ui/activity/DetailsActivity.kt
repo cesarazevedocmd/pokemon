@@ -25,12 +25,12 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun loadInformation(pokemon: Pokemon) {
         with(pokemon) {
-            informationView(R.id.activity_details_info_01)
-            informationView(R.id.activity_details_info_02)
-            informationView(R.id.activity_details_info_03)
-            informationView(R.id.activity_details_info_04)
-            informationView(R.id.activity_details_info_05)
-            informationView(R.id.activity_details_info_06)
+            informationView(R.id.activity_details_info_01, "Name", this.name)
+            informationView(R.id.activity_details_info_02, "Height", "${this.height}")
+            informationView(R.id.activity_details_info_03, "Weight", "${this.weight}")
+            informationView(R.id.activity_details_info_04, "Abilities", this.abilities.toString())
+            informationView(R.id.activity_details_info_05, "Stats", this.stats.toString())
+            informationView(R.id.activity_details_info_06, "Types", this.types.toString())
         }
     }
 
