@@ -3,4 +3,5 @@
     <string name="label_pokemon_example">POKEMON EXAMPLE</string>
     <string name="label_title_example">TITLE</string>
     <string name="label_subtitle_example">SUBTITLE</string>
+    <string name="message_pokemon_not_found">Pokemon not found, go back and try again</string>
 </resources>
