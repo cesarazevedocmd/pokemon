@@ -40,7 +40,6 @@ class PokemonAdapter(private val itemClick: (Pokemon) -> Unit) : RecyclerView.Ad
                 Glide
                     .with(itemView.context)
                     .load(pokemon.frontPhotoUrl)
-                    .centerCrop()
                     .into(itemView.findViewById<AppCompatImageView>(R.id.pokemon_item_icon))
             }
         }
