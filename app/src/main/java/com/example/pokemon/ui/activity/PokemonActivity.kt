@@ -82,21 +82,20 @@ class PokemonActivity : AppCompatActivity() {
         viewModel.items().observe(this, {
             when (it.status) {
                 Status.LOADING -> {
-                    println("PKM_RESULT: LOADING")
                     loading.visibility = VISIBLE
                     txvAlert.visibility = GONE
                 }
                 Status.SUCCESS -> {
-                    println("PKM_RESULT: SUCCESS ${it.data}")
-                    loading.visibility = GONE
-                    txvAlert.visibility = GONE
                     it.data?.apply { pokemonAdapter.setItems(this) }
                 }
                 Status.ERROR -> {
-                    println("PKM_RESULT: ERROR ${it.message}")
                     loading.visibility = GONE
-                    txvAlert.text = it.message
                     txvAlert.visibility = VISIBLE
+                    txvAlert.text = it.message
+                }
+                Status.FINISH -> {
+                    loading.visibility = GONE
+                    txvAlert.visibility = GONE
                 }
             }
         })

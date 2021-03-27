@@ -10,46 +10,55 @@ import com.example.pokemon.ui.viewmodel.provider.Status
 open class PokemonClientService(private val service: PokemonService) {
 
     private val items = mutableListOf<Pokemon>()
-    private val pokemonList = MutableLiveData<Resource<List<Pokemon>>>().apply { this.value = Resource.success(listOf()) }
+    private val pokemonList = MutableLiveData<Resource<List<Pokemon>>>().apply { this.value = Resource.finished() }
 
     fun items(): LiveData<Resource<List<Pokemon>>> = pokemonList
 
     suspend fun listItems() {
-        if (pokemonList.value?.status != Status.LOADING) {
+        if (pokemonList.value?.status == Status.FINISH) {
             pokemonList.postValue(Resource.loading())
             try {
-                items.addAll(loadItems())
-                pokemonList.postValue(Resource.success(items))
+                loadItems()
+                pokemonList.postValue(Resource.finished())
             } catch (exception: RuntimeException) {
-                pokemonList.postValue(Resource.error(exception.message ?: "Error, something went wrong"))
+                pokemonList.postValue(Resource.error(exception.localizedMessage ?: "Error, something went wrong"))
             }
         }
     }
 
-    private suspend fun loadItems(): List<Pokemon> {
+    @Synchronized
+    private suspend fun loadItems() {
         val offset = getOffset()
         val list = service.listItems(offset = offset)
-        val result = mutableListOf<Pokemon>()
-        list.results.forEach {
-            val pokemon = loadPokemonDetails(it)
-            result.add(pokemon)
+        list.results.forEach { response ->
+            loadPokemonDetails(response)?.also {
+                addNewItem(it)
+            }
         }
-        return result
     }
 
-    private suspend fun loadPokemonDetails(it: ItemListResponse): Pokemon {
-        val pokemonFound = service.findPokemon(it.name)
-        return Pokemon(
-            name = it.name,
-            frontPhotoUrl = pokemonFound.sprites?.frontPhoto ?: "",
-            backPhotoUrl = pokemonFound.sprites?.backPhoto ?: "",
-            weight = pokemonFound.weight,
-            height = pokemonFound.height,
-            stats = pokemonFound.stats?.map { it.stat.name } ?: listOf(),
-            abilities = pokemonFound.abilities?.map { it.ability.name } ?: listOf(),
-            types = pokemonFound.types?.map { it.type.name } ?: listOf()
-        )
+    private fun addNewItem(pokemon: Pokemon) {
+        items.add(pokemon)
+        pokemonList.postValue(Resource.success(items))
     }
 
-    private fun getOffset(): Int = pokemonList.value?.data?.size ?: 0
+    private suspend fun loadPokemonDetails(response: ItemListResponse): Pokemon? {
+        return try {
+            val pokemonFound = service.findPokemon(response.name)
+            Pokemon(
+                name = response.name,
+                frontPhotoUrl = pokemonFound.sprites?.frontPhoto ?: "",
+                backPhotoUrl = pokemonFound.sprites?.backPhoto ?: "",
+                weight = pokemonFound.weight,
+                height = pokemonFound.height,
+                stats = pokemonFound.stats?.map { it.stat.name } ?: listOf(),
+                abilities = pokemonFound.abilities?.map { it.ability.name } ?: listOf(),
+                types = pokemonFound.types?.map { it.type.name } ?: listOf()
+            )
+        } catch (exception: RuntimeException) {
+            null
+        }
+    }
+
+    private fun getOffset(): Int = items.size
 }
