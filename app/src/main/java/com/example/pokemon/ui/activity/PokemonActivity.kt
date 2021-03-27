@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemon.R
+import com.example.pokemon.repository.model.Pokemon
 import com.example.pokemon.ui.activity.adapter.PokemonAdapter
 import com.example.pokemon.ui.viewmodel.PokemonViewModel
 import com.example.pokemon.ui.viewmodel.provider.Status
@@ -41,15 +42,13 @@ class PokemonActivity : AppCompatActivity() {
         loadViews()
         setupObservable()
         setupRecyclerView()
-        viewModel.listItems()
+        if (savedInstanceState == null) {
+            viewModel.listItems()
+        }
     }
 
     private fun loadViews() {
         updateQuantity()
-    }
-
-    private fun updateQuantity() {
-        txvQuantity.text = String.format("Quantity: ${pokemonAdapter.itemCount}")
     }
 
     private fun initViews() {
@@ -93,9 +92,10 @@ class PokemonActivity : AppCompatActivity() {
                     loading.visibility = VISIBLE
                     txvAlert.visibility = GONE
                 }
-                Status.SUCCESS -> {
-                    it.data?.apply { pokemonAdapter.setItems(this) }
-                    updateQuantity()
+                Status.UPDATE_IN_PROGRESS -> {
+                    loading.visibility = VISIBLE
+                    txvAlert.visibility = GONE
+                    it.data?.apply { updateAdapter(this) }
                 }
                 Status.ERROR -> {
                     loading.visibility = GONE
@@ -103,11 +103,21 @@ class PokemonActivity : AppCompatActivity() {
                     txvAlert.text = it.message
                     updateQuantity()
                 }
-                Status.FINISH -> {
+                Status.FINISHED -> {
                     loading.visibility = GONE
                     txvAlert.visibility = GONE
+                    it.data?.apply { updateAdapter(this) }
                 }
             }
         })
+    }
+
+    private fun updateQuantity() {
+        txvQuantity.text = String.format("Quantity: ${pokemonAdapter.itemCount}")
+    }
+
+    private fun updateAdapter(items: List<Pokemon>) {
+        pokemonAdapter.setItems(items)
+        updateQuantity()
     }
 }
