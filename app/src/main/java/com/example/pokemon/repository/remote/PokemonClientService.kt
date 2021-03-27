@@ -1,6 +1,5 @@
 package com.example.pokemon.repository.remote
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.pokemon.repository.model.Pokemon
@@ -57,7 +56,6 @@ open class PokemonClientService(private val service: PokemonService) {
                 types = pokemonFound.types?.map { it.type.name } ?: listOf()
             )
         } catch (exception: RuntimeException) {
-            Log.i("PKM_RESULT", "loadPokemonDetails, pokemon ${response.name} -> ${exception.message}")
             null
         }
     }
