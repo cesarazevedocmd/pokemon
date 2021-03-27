@@ -10,7 +10,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemon.R
-import com.example.pokemon.repository.model.Pokemon
 import com.example.pokemon.ui.activity.adapter.PokemonAdapter
 import com.example.pokemon.ui.viewmodel.PokemonViewModel
 import com.example.pokemon.ui.viewmodel.provider.Status
@@ -20,6 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PokemonActivity : AppCompatActivity() {
 
     private lateinit var txvAlert: AppCompatTextView
+    private lateinit var txvQuantity: AppCompatTextView
     private lateinit var loading: ProgressBar
 
     private var canLoadMoreItems = true
@@ -27,26 +27,34 @@ class PokemonActivity : AppCompatActivity() {
     private val viewModel: PokemonViewModel by viewModel()
 
     private val pokemonAdapter: PokemonAdapter by lazy {
-        PokemonAdapter(itemClick)
-    }
-
-    private val itemClick: (Pokemon) -> Unit = {
-        val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra(ModelConstants.POKEMON, it)
-        startActivity(intent)
+        PokemonAdapter {
+            val intent = Intent(this, DetailsActivity::class.java)
+            intent.putExtra(ModelConstants.POKEMON, it)
+            startActivity(intent)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon)
         initViews()
+        loadViews()
         setupObservable()
         setupRecyclerView()
         viewModel.listItems()
     }
 
+    private fun loadViews() {
+        updateQuantity()
+    }
+
+    private fun updateQuantity() {
+        txvQuantity.text = String.format("Quantity: ${pokemonAdapter.itemCount}")
+    }
+
     private fun initViews() {
         txvAlert = findViewById(R.id.activity_pokemon_txv_alert)
+        txvQuantity = findViewById(R.id.activity_pokemon_txv_quantity)
         loading = findViewById(R.id.activity_pokemon_loading)
     }
 
@@ -87,11 +95,13 @@ class PokemonActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS -> {
                     it.data?.apply { pokemonAdapter.setItems(this) }
+                    updateQuantity()
                 }
                 Status.ERROR -> {
                     loading.visibility = GONE
                     txvAlert.visibility = VISIBLE
                     txvAlert.text = it.message
+                    updateQuantity()
                 }
                 Status.FINISH -> {
                     loading.visibility = GONE
