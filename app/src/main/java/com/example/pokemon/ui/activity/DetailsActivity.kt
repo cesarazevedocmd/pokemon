@@ -5,12 +5,12 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import com.bumptech.glide.Glide
 import com.example.pokemon.R
 import com.example.pokemon.repository.model.Pokemon
 import com.example.pokemon.ui.customview.CustomViewInformation
 import com.example.pokemon.util.ModelConstants
 import com.example.pokemon.util.extension.formatToString
+import com.example.pokemon.util.extension.loadImage
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -39,14 +39,8 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun loadImage(pokemon: Pokemon) {
-        Glide
-            .with(this)
-            .load(pokemon.frontPhotoUrl)
-            .into(findViewById<AppCompatImageView>(R.id.activity_details_front))
-        Glide
-            .with(this)
-            .load(pokemon.backPhotoUrl)
-            .into(findViewById<AppCompatImageView>(R.id.activity_details_back))
+        findViewById<AppCompatImageView>(R.id.activity_details_front).loadImage(pokemon.frontPhotoUrl)
+        findViewById<AppCompatImageView>(R.id.activity_details_back).loadImage(pokemon.backPhotoUrl)
     }
 
     private fun getPokemon(): Pokemon {
