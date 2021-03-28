@@ -8,7 +8,7 @@ class PokemonAPI {
 
     companion object {
 
-        var VERSION: String = "api/v2/"
+        var VERSION: String = "v2"
         private const val url = "https://pokeapi.co/"
 
         private var instance: Retrofit? = null

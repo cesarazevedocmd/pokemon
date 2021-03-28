@@ -9,13 +9,13 @@ import retrofit2.http.Query
 
 interface PokemonService {
 
-    @GET("{api_version}/pokemon?limit=50")
+    @GET("api/{api_version}/pokemon?limit=50")
     suspend fun listItems(
         @Path(value = "api_version") api: String = PokemonAPI.VERSION,
         @Query(value = "offset") offset: Int
     ): ListResponse
 
-    @GET("{api_version}/pokemon/{name}")
+    @GET("api/{api_version}/pokemon/{name}")
     suspend fun findPokemon(
         @Path("name") pokemonName: String,
         @Path(value = "api_version") api: String = PokemonAPI.VERSION

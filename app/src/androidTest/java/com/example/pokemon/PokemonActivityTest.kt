@@ -30,11 +30,11 @@ class PokemonActivityTest {
     @Test
     fun runApplication() {
 
-        delay(7000)
+        delay(5000)
 
         scrollTo(15)
 
-        delay(1500)
+        delay(1000)
 
         selectItemAtPosition(12)
 
@@ -42,11 +42,11 @@ class PokemonActivityTest {
 
         pressBack()
 
-        delay(1000)
+        delay(700)
 
         scrollTo(40)
 
-        delay(1500)
+        delay(700)
 
         selectItemAtPosition(35)
 
@@ -54,7 +54,7 @@ class PokemonActivityTest {
 
         pressBack()
 
-        delay(1500)
+        delay(1000)
     }
 
     private fun selectItemAtPosition(position: Int) {
