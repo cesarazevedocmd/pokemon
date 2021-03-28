@@ -1,8 +1,9 @@
 package com.example.pokemon.repository.remote
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.pokemon.createListResponse
 import com.example.pokemon.createPokemonList
-import com.example.pokemon.repository.model.Pokemon
+import com.example.pokemon.createPokemonResponse
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -34,49 +35,55 @@ class PokemonClientServiceTest {
     fun should_ReturnEmptyList_WhenCallItems() {
         val items = pokemonClientService.items()
 
-        assertThat(items.value, equalTo(listOf()))
+        assertThat(items.value?.data, equalTo(listOf()))
     }
 
     @Test
-    fun should_ReturnAListWith100Pokemon_WhenCallListItemOnce() {
-        val listWith100Pokemon = createPokemonList(1, 100)
+    fun should_ReturnAListWith100Pokemon_WhenCallListItemsOnce() {
+        val pokemonList = createPokemonList(quantity = 100)
+        val listResponse = createListResponse(quantity = 100)
 
         runBlocking {
-            `when`(service.listItems(eq(0), anyString())).thenReturn(listWith100Pokemon)
+            `when`(service.listItems(anyString(), eq(0))).thenReturn(listResponse)
+            `when`(service.findPokemon(anyString(), anyString())).thenReturn(createPokemonResponse())
 
             pokemonClientService.listItems()
 
-            assertThat(pokemonClientService.items().value, equalTo(listWith100Pokemon))
+            assertThat(pokemonClientService.items().value?.data, equalTo(pokemonList))
         }
     }
 
     @Test
-    fun should_ReturnAListWith200Pokemon_WhenCallListItemTwice() {
-        val listWith100Pokemon = createPokemonList(1, 100)
-        val newListWith100Pokemon = createPokemonList(2, 100)
-        val resultArray: List<Pokemon> = listWith100Pokemon + newListWith100Pokemon
+    fun should_ReturnAListWith200Pokemon_WhenCallListItemsTwice() {
+        val listResponse = createListResponse(quantity = 100)
+        val pokemonList = createPokemonList(quantity = 100)
+        val result = pokemonList + pokemonList
 
         runBlocking {
-            `when`(service.listItems(eq(0), anyString())).thenReturn(listWith100Pokemon)
-            `when`(service.listItems(eq(100), anyString())).thenReturn(newListWith100Pokemon)
+            `when`(service.listItems(anyString(), anyInt())).thenReturn(listResponse)
+            `when`(service.findPokemon(anyString(), anyString())).thenReturn(createPokemonResponse())
 
             pokemonClientService.listItems()
             pokemonClientService.listItems()
 
-            assertThat(pokemonClientService.items().value, equalTo(resultArray))
+            assertThat(pokemonClientService.items().value?.data, equalTo(result))
         }
     }
 
     @Test
-    fun should_ReturnAListWith300Pokemon_WhenCallListItemThreeTimes() {
+    fun should_ReturnAListWith300Pokemon_WhenCallListItemsThreeTimes() {
+        val pokemonList = createPokemonList(quantity = 300)
+        val listResponse = createListResponse(quantity = 100)
+
         runBlocking {
-            `when`(service.listItems(anyInt(), anyString())).thenReturn(createPokemonList(0, 100))
+            `when`(service.listItems(anyString(), anyInt())).thenReturn(listResponse)
+            `when`(service.findPokemon(anyString(), anyString())).thenReturn(createPokemonResponse())
 
             pokemonClientService.listItems()
             pokemonClientService.listItems()
             pokemonClientService.listItems()
 
-            assertThat(pokemonClientService.items().value?.size, equalTo(300))
+            assertThat(pokemonClientService.items().value?.data?.size, equalTo(pokemonList.size))
         }
     }
 }

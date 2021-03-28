@@ -1,7 +1,9 @@
 package com.example.pokemon.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.pokemon.createListResponse
 import com.example.pokemon.createPokemonList
+import com.example.pokemon.createPokemonResponse
 import com.example.pokemon.repository.PokemonRepository
 import com.example.pokemon.repository.remote.PokemonClientService
 import com.example.pokemon.repository.remote.PokemonService
@@ -40,19 +42,20 @@ class PokemonViewModelTest {
     fun should_ReturnAnEmptyPokemonList_WhenCallItems() {
         val liveData = viewModel.items()
 
-        assertThat(liveData.value, equalTo(listOf()))
+        assertThat(liveData.value?.data, equalTo(listOf()))
     }
 
     @Test
-    fun should_ReturnAListWith100Pokemon_WhenCallListItemOnce() {
-        val pokemonList = createPokemonList(0, 100)
+    fun should_ReturnAListWith100Pokemon_WhenCallListItemsOnce() {
+        val pokemonList = createPokemonList(quantity = 100)
 
         runBlocking {
-            `when`(service.listItems(anyInt(), anyString())).thenReturn(pokemonList)
+            `when`(service.listItems(anyString(), anyInt())).thenReturn(createListResponse(100))
+            `when`(service.findPokemon(anyString(), anyString())).thenReturn(createPokemonResponse())
 
             viewModel.listItems()
 
-            assertThat(viewModel.items().value, equalTo(pokemonList))
+            assertThat(viewModel.items().value?.data, equalTo(pokemonList))
         }
     }
 }
